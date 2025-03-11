@@ -2,13 +2,14 @@ import express, { Express, Request, Response, NextFunction } from "express";
 import errorHandler from "./middleware/ErrorMiddleware";
 import booksrouter from "./routes/books.routes";
 import bookApiLimiter from "./middleware/RateLimiter";
+import { urlVersioning } from "./middleware/ApiVersionMiddleware";
 const app: Express = express();
 app.use(errorHandler);
 app.use(bookApiLimiter);
 const port = process.env.PORT || 3000;
-
+app.use(urlVersioning("v1"));
 app.use(express.json());
-app.use("/books", booksrouter);
+app.use("/api/v1/books", booksrouter);
 
 // Global Error Handler
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
