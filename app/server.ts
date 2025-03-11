@@ -1,9 +1,10 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import errorHandler from "./middleware/ErrorMiddleware";
 import booksrouter from "./routes/books.routes";
-
+import bookApiLimiter from "./middleware/RateLimiter";
 const app: Express = express();
 app.use(errorHandler);
+app.use(bookApiLimiter);
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
